@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>瀑布</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .box {
+            float: left;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var container = document.getElementById("container");
+            var boxes = container.children;
+            var boxWidth = boxes[0].offsetWidth; 
+            var pageWidth = window.innerWidth; 
+            var colunm = Math.floor(pageWidth / boxWidth);
+            waterFall();
+            function waterFall(){
+                var arrHeight=[];
+                for(var i=0;i<boxes.length;i++){
+                    if(i<colunm){ 
+                        arrHeight.push(boxes[i].offsetHeight);
+                    }else {
+                        var minHeightIndex = getMin(arrHeight).index;
+                        var minHeightValue = getMin(arrHeight).value;
+                        var boxLeft = boxes[minHeightIndex].offsetLeft;
+                        boxes[i].style.position ="absolute"
+                        boxes[i].style.left = boxLeft + 'px';
+                        boxes[i].style.top = minHeightValue+'px';
+                        arrHeight[minHeightIndex] =minHeightValue+boxes[i].offsetHeight;
+                    }
+                }
+
+            }
+            window.onscroll = function(){ 
+                if(bottomed()){ 
+                    var config = [  
+                        {"src": "images/P_000.jpg"},
+                        {"src": "images/P_001.jpg"},
+                        {"src": "images/P_002.jpg"},
+                        {"src": "images/P_003.jpg"},
+                        {"src": "images/P_004.jpg"},
+                        {"src": "images/P_005.jpg"},
+                        {"src": "images/P_006.jpg"},
+                        {"src": "images/P_007.jpg"},
+                        {"src": "images/P_008.jpg"},
+                        {"src": "images/P_009.jpg"},
+                        {"src": "images/P_010.jpg"},
+                        {"src": "images/P_011.jpg"},
+                        {"src": "images/P_012.jpg"},
+                        {"src": "images/P_013.jpg"},
+                        {"src": "images/P_014.jpg"},
+                        {"src": "images/P_015.jpg"},
+                        {"src": "images/P_016.jpg"},
+                        {"src": "images/P_017.jpg"},
+                        {"src": "images/P_018.jpg"},
+                        {"src": "images/P_019.jpg"}
+                    ];
+                    for(var i=0;i<config.length;i++){
+                        var div =document.createElement("div");
+                        div.className = "box";
+                        var img = document.createElement("img");
+                        img.src = config[i].src;
+                        div.appendChild(img);
+                        container.appendChild(div);
+                    }
+                        var a = 10;
+                    waterFall();
+                }
+            }
+            function  bottomed(){
+                var scrollTop = scroll().top;
+                var clientHeight = window.innerHeight ;
+                var offsetTop = boxes[boxes.length-1].offsetTop;
+                if(scrollTop+clientHeight>offsetTop){
+                    return true;
+                }
+            }
+
+            function scroll(){
+                return {
+                    top:  window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+                    left:window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0
+                }
+            }
+        }
+
+        function getMin(arr){
+            arr[0];
+            var obj = {};
+            obj.index = 0;
+            obj.value = arr[0];
+            for(var i=1;i<arr.length;i++){
+                if(obj.value>arr[i]){
+                    obj.value= arr[i];
+                    obj.index = i;
+                }
+            }
+            return obj;
+        }
+    </script>
+</head>
+<body>
+<div id="container">
+    <!--(.box>img[src="images/P_00$.jpg"])*9-->
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div><div class="box"><img src="images/P_000.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_001.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_002.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_003.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_004.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_005.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_006.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_007.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_008.jpg" alt=""/></div>
+    <div class="box"><img src="images/P_009.jpg" alt=""/></div>
+
+</div>
+</body>
+</html>
