@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,ul,ol,li,img {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #box {
+            width: 500px;
+            height: 200px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+        .ad {
+            width: 500px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        #box img {
+            width: 500px;
+        }
+        .ad ul li{
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            float: left;
+        }
+        .ad ul {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3000px;
+        }
+        .ad ul li.current {
+            background: yellow;
+        }
+        .ad ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            line-height: 20px;
+            text-align: center;
+        }
+        .ad ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .ad ol li.current {
+            background: yellow;
+        }
+        #arr {
+            display: none;
+        }
+        #arr span {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            background-color: #000;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+        #arr #left{
+            left: 5px;
+        }
+        #arr #right {
+            right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="box" class="all" >
+    <div class="ad">
+        <ul id="imgs">
+            <li><img src="images/1.jpg" width='500' height='200' alt=""/></li>
+            <li><img src="images/2.jpg" width='500' height='200' alt=""/></li>
+            <li><img src="images/3.jpg" width='500' height='200' alt=""/></li>
+            <li><img src="images/4.jpg" width='500' height='200' alt=""/></li>
+            <li><img src="images/5.jpg" width='500' height='200' alt=""/></li>
+        </ul>
+        <ol></ol>
+    </div>
+    <div id="arr"><span id="left">&lt;</span><span id="right">&gt;</span></div>
+</div>
+<script>
+    var box = document.getElementById("box");
+    var ad = box.children[0];
+    var ul = ad.children[0];
+    var ol = ad.children[1];
+    var arr = box.children[1];
+    var lis = ul.children;
+    var imgWidth = ad.offsetWidth;
+    var left = document.getElementById("left");
+    var right = document.getElementById("right");
+    var timerId = null;
+    for(var i=0;i<lis.length;i++){
+        var li = document.createElement("li");
+        ol.appendChild(li);
+        li.innerHTML = i+1;
+    }
+
+    var olLis = ol.children;
+    olLis[0].className = 'current';
+
+    for(var i=0;i<olLis.length;i++){
+        olLis[i].index = i;
+        olLis[i].onmouseover = function(){
+            for(var j=0;j<olLis.length;j++){
+                olLis[j].className = '';
+            }
+            this.className = 'current';
+            var target = -imgWidth*this.index;
+            animate(ul,target);
+            pic = this.index;  
+        }
+    }
+
+    box.onmouseover = function(){
+        arr.style.display = 'block'; 
+
+        clearInterval(timerId);
+    }
+    box.onmouseout = function(){
+        arr.style.display = "none";
+        timerId = setInterval(playNext,1000);
+    }
+
+    var imgFirst = lis[0].cloneNode(true);
+    ul.appendChild(imgFirst);
+
+    var pic = 0;
+    var square = 0;
+    right.onclick = function(){
+        playNext();
+    }
+
+    timerId = setInterval(playNext,1000);
+    function playNext(){  
+        if(pic==lis.length-1){
+            pic = 0; 
+            ul.style.left = '0px';
+        }
+        pic++;
+        var target = -imgWidth * pic;
+        animate(ul,target);
+        if(square<olLis.length-1){
+            square++;
+        }else {
+            square = 0;
+        }
+        for(var i=0;i<olLis.length;i++){
+            olLis[i].className = '';
+        }
+        olLis[square].className = 'current';
+    }
+    left.onclick = function(){
+        if(pic==0){
+            pic = lis.length-1;
+            ul.style.left = -imgWidth *(lis.length-1) + 'px';
+        }
+        pic--;
+        var target = -imgWidth*pic;
+        animate(ul,target);
+
+        if(square>0){
+            square--;
+        }else {
+            square = olLis.length-1;
+        }
+        for(var i=0;i<olLis.length;i++){
+            olLis[i].className = '';
+        }
+        olLis[square].className = 'current';
+    }
+
+    function animate(obj,target){
+        clearInterval(obj.timerId); 
+        obj.timerId= setInterval(function(){
+            var step = 20;
+            var leader = obj.offsetLeft; 
+            step = leader < target? step : -step;
+            leader =    leader + step;
+            if(Math.abs(leader-target)>Math.abs(step)){ 
+                obj.style.left = leader + 'px';
+            }else {
+                clearInterval(obj.timerId);
+                obj.style.left = target + 'px';
+            }
+        },15)
+    }
+</script>
+</body>
+</html>
